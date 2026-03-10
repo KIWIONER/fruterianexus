@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Primary Tags -->
+    <title>Frutería Nexus | Fruta y Verdura Fresca a Domicilio</title>
+    <meta name="description"
+        content="Compra fruta y verdura de temporada con envío a domicilio en 24h. Cajas variadas desde 15€. Calidad premium directa de la huerta a tu mesa.">
+    <meta name="keywords"
+        content="frutería online, fruta a domicilio, verdura fresca, cestas de fruta, productos ecológicos, fruta de temporada, envío a domicilio Madrid, cajas de fruta">
+    <meta name="author" content="Frutería Nexus">
+    <meta name="theme-color" content="#22c55e">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://fruterianexus.com/">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fruterianexus.com/">
+    <meta property="og:title" content="Frutería Nexus | Sabor Natural en tu Hogar">
+    <meta property="og:description"
+        content="Descubre el sabor de verdad. Fruta y verdura seleccionada a mano y entregada en tu puerta mañana mismo.">
+    <meta property="og:image"
+        content="https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&q=80&w=1200">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://fruterianexus.com/">
+    <meta property="twitter:title" content="Frutería Nexus | Fruta Premium a Domicilio">
+    <meta property="twitter:description"
+        content="Olvídate de cargar peso. Te llevamos la mejor fruta y verdura de temporada a casa.">
+    <meta property="twitter:image"
+        content="https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&q=80&w=1200">
+
+    <!-- Structured Data (JSON-LD) for Rich Snippets -->
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Frutería Nexus",
+        "image": "https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&q=80&w=1200",
+        "@id": "https://fruterianexus.com/#localbusiness",
+        "url": "https://fruterianexus.com/",
+        "telephone": "+34911223344",
+        "priceRange": "€€",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Calle del Huerto 123",
+          "addressLocality": "Madrid",
+          "addressRegion": "Madrid",
+          "postalCode": "28001",
+          "addressCountry": "ES"
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "09:00",
+          "closes": "20:00"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Frutería Nexus",
+        "url": "https://fruterianexus.com/",
+        "logo": "https://fruterianexus.com/logo.png",
+        "sameAs": [
+          "https://www.facebook.com/fruterianexus",
+          "https://www.instagram.com/fruterianexus"
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Frutería Nexus",
+        "url": "https://fruterianexus.com/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://fruterianexus.com/?s={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "Product",
+              "name": "Caja Esencial",
+              "description": "Perfecta para singles o parejas. 5kg de fruta variada.",
+              "offers": {
+                "@type": "Offer",
+                "price": "15.00",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+              }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "Product",
+              "name": "Caja Familiar",
+              "description": "La favorita de Nexus. 8kg de fruta y verduras de temporada.",
+              "offers": {
+                "@type": "Offer",
+                "price": "25.00",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+              }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "Product",
+              "name": "Caja Premium XL",
+              "description": "Para los amantes de lo natural. 12kg con frutas exóticas.",
+              "offers": {
+                "@type": "Offer",
+                "price": "35.00",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+              }
+            }
+          }
+        ]
+      }
+    ]
+    </script>
+
+    <!-- Scripts -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos para animaciones de scroll (Reveal) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍎</text></svg>">
+</head>
+
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="container nav-flex">
+            <a href="#" class="logo">
+                <span class="logo-icon">🌿</span>
+                <span class="logo-text">Frutería <span class="text-gradient">Nexus</span></span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Abrir menú">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav-links">
+                <a href="#productos">Cajas</a>
+                <a href="#catalogo">Catálogo</a>
+                <a href="#recetas">Recetas</a>
+                <a href="#nosotros">Nosotros</a>
+                <div class="cart-icon-wrapper" id="cart-icon">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-count">0</span>
+                </div>
+                <a href="#contacto" class="btn btn-primary">Pedir Ahora</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero reveal">
+            <div class="container grid-2">
+                <div class="hero-content">
+                    <span class="badge">Sabor 100% Natural</span>
+                    <h1>Vive la Experiencia de la <span class="text-gradient">Fruta Real</span></h1>
+                    <p>Seleccionamos a mano las mejores piezas de temporada para que disfrutes de la máxima frescura sin
+                        salir de casa.</p>
+                    <div class="hero-actions">
+                        <a href="#productos" class="btn btn-primary">Ver Cajas</a>
+                        <a href="#nosotros" class="btn-link">Nuestra Historia →</a>
+                    </div>
+                </div>
+                <div class="hero-image-wrapper">
+                    <div class="image-card">
+                        <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&q=80&w=800"
+                            alt="Frutería Nexus - Selección de frutas frescas de temporada" width="800" height="600"
+                            fetchpriority="high">
+                        <div class="floating-badge">
+                            <span class="icon">✨</span>
+                            <div class="text">
+                                <strong>Premium</strong>
+                                <p>Calidad Garantizada</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Products -->
+        <section id="productos" class="products reveal">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Nuestras <span class="text-gradient">Cajas Nexus</span></h2>
+                    <p>Elige el tamaño perfecto para tu hogar</p>
+                </div>
+
+                <div class="product-grid">
+                    <!-- Small Box -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=600"
+                                alt="Caja Esencial de Frutería Nexus - 5kg de fruta variada" width="600" height="400"
+                                loading="lazy">
+                        </div>
+                        <div class="product-info">
+                            <h3>Caja Esencial</h3>
+                            <p>Perfecta para singles o parejas. 5kg de fruta variada.</p>
+                            <div class="product-footer">
+                                <span class="price">15,00€</span>
+                                <button class="btn btn-primary add-to-cart" data-id="1" data-name="Caja Esencial"
+                                    data-price="15">Añadir</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medium Box -->
+                    <div class="product-card featured">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1519996529931-28324d5a630e?auto=format&fit=crop&q=80&w=600"
+                                alt="Caja Familiar de Frutería Nexus - 8kg de fruta y verdura" width="600" height="400"
+                                loading="lazy">
+                        </div>
+                        <div class="product-info">
+                            <div class="tag">Más Popular</div>
+                            <h3>Caja Familiar</h3>
+                            <p>La favorita de Nexus. 8kg de fruta y verduras de temporada.</p>
+                            <div class="product-footer">
+                                <span class="price">25,00€</span>
+                                <button class="btn btn-primary add-to-cart" data-id="2" data-name="Caja Familiar"
+                                    data-price="25">Añadir</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Large Box -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?auto=format&fit=crop&q=80&w=600"
+                                alt="Caja Premium XL de Frutería Nexus - 12kg con frutas exóticas" width="600"
+                                height="400" loading="lazy">
+                        </div>
+                        <div class="product-info">
+                            <h3>Caja Premium XL</h3>
+                            <p>Para los amantes de lo natural. 12kg con frutas exóticas.</p>
+                            <div class="product-footer">
+                                <span class="price">35,00€</span>
+                                <button class="btn btn-primary add-to-cart" data-id="3" data-name="Caja Premium XL"
+                                    data-price="35">Añadir</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Catalog Section -->
+        <section id="catalogo" class="products reveal" style="background: white;">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Catálogo <span class="text-gradient">Individual</span></h2>
+                    <p>Elige tus piezas favoritas por separado</p>
+                </div>
+
+                <div class="category-cards">
+                    <div class="cat-card" data-filter="all">
+                        <img src="https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=600&q=80"
+                            alt="Todo el Huerto - Variedad de frutas y verduras frescas" width="600" height="400"
+                            loading="lazy">
+                        <div class="cat-card-content">
+                            <h3>Todo el Huerto</h3>
+                            <p>Frutas y verduras frescas</p>
+                        </div>
+                    </div>
+                    <div class="cat-card" data-filter="fruta">
+                        <img src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=600&q=80"
+                            alt="Frutas frescas de temporada - Frutería Nexus" width="600" height="400" loading="lazy">
+                        <div class="cat-card-content">
+                            <h3>Frutas</h3>
+                            <p>Dulces y de temporada</p>
+                        </div>
+                    </div>
+                    <div class="cat-card" data-filter="verdura">
+                        <img src="https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&q=80&w=600"
+                            alt="Verduras frescas directas del huerto - Frutería Nexus" width="600" height="400"
+                            loading="lazy">
+                        <div class="cat-card-content">
+                            <h3>Verduras</h3>
+                            <p>Directo de la tierra</p>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+        </section>
+
+        <!-- Seasonal Highlight -->
+        <section class="seasonal-highlight reveal">
+            <div class="container">
+                <div class="highlight-box">
+                    <div class="highlight-content">
+                        <span class="highlight-badge">Temporada Alta</span>
+                        <h2>Mango <span class="text-gradient">Premium Kent</span></h2>
+                        <p>Llegados esta semana de la Axarquía. Dulzura concentrada y textura mantecosa. Pruébalos antes de que se agoten.</p>
+                        <div class="highlight-actions">
+                            <button class="btn btn-primary add-to-cart" data-id="108" data-name="Mango Premium" data-price="3.20">Probar Ahora (3,20€)</button>
+                        </div>
+                    </div>
+                    <div class="highlight-image">
+                        <img src="https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&q=80&w=800" alt="Mango Premium Kent de la Axarquía - Frutería Nexus" width="800" height="600" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recipes Section -->
+        <section id="recetas" class="recipes reveal">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Cocina con Salud</span>
+                    <h2>Platos <span class="text-gradient">Sanos</span></h2>
+                    <p>Elige tu plato favorito y nosotros te preparamos los ingredientes frescos para que solo tengas
+                        que
+                        cocinar.</p>
+                </div>
+
+                <div class="recipe-grid">
+                    <!-- Recipe 1 -->
+                    <div class="recipe-card">
+                        <div class="recipe-img tutorial-trigger" data-title="Ensalada Mediterránea"
+                            data-img="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800"
+                            data-steps='["Lava bien la lechuga y el tomate Rama.", "Corta el tomate y el pepino en rodajas finas.", "Pica la cebolla dulce y el pimiento rojo en juliana.", "Mezcla todo en un bol y aliña con aceite de oliva virgen y una pizca de sal."]'>
+                            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800"
+                                alt="Ensalada Mediterránea" width="800" height="600" loading="lazy">
+                        </div>
+                        <div class="recipe-content">
+                            <span class="recipe-tag">Bajo en Calorías</span>
+                            <h3>Ensalada Mediterránea</h3>
+                            <p>Frescura pura con los mejores tomates de la huerta, pepino crujiente y cebolla dulce.</p>
+                            <div class="recipe-ingredients">
+                                <span class="ingredient-tag">Tomate Rama</span>
+                                <span class="ingredient-tag">Pepino</span>
+                                <span class="ingredient-tag">Cebolla</span>
+                                <span class="ingredient-tag">Pimiento</span>
+                                <span class="ingredient-tag">Lechuga</span>
+                            </div>
+                            <button class="btn btn-primary add-recipe-btn"
+                                data-items='[{"id":201, "name":"Tomate Rama", "price":2.20}, {"id":209, "name":"Pepino", "price":1.30}, {"id":206, "name":"Cebolla Dulce", "price":0.85}, {"id":205, "name":"Pimiento Rojo", "price":2.50}, {"id":204, "name":"Lechuga", "price":1.10}]'
+                                style="width: 100%;">Añadir al carrito</button>
+                        </div>
+                    </div>
+
+                    <!-- Recipe 2 -->
+                    <div class="recipe-card">
+                        <div class="recipe-img tutorial-trigger" data-title="Smoothie Vitalidad"
+                            data-img="https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&q=80&w=800"
+                            data-steps='["Lava los fresones y los arándanos.", "Pela el kiwi y el plátano, cortándolos en trozos.", "Añade las espinacas frescas a la batidora.", "Bate todo junto con un poco de agua o leche vegetal hasta que esté cremoso."]'>
+                            <img src="https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&q=80&w=800"
+                                alt="Receta de Smoothie Vitalidad con frutos rojos y kiwi" width="800" height="600"
+                                loading="lazy">
+                        </div>
+                        <div class="recipe-content">
+                            <span class="recipe-tag">Desayuno Saludable</span>
+                            <h3>Smoothie Vitalidad</h3>
+                            <p>Empieza el día con energía. Una combinación explosiva de frutos rojos, kiwi y espinacas
+                                tiernas.</p>
+                            <div class="recipe-ingredients">
+                                <span class="ingredient-tag">Fresón</span>
+                                <span class="ingredient-tag">Arándanos</span>
+                                <span class="ingredient-tag">Kiwi</span>
+                                <span class="ingredient-tag">Plátano</span>
+                                <span class="ingredient-tag">Espinacas</span>
+                            </div>
+                            <button class="btn btn-primary add-recipe-btn"
+                                data-items='[{"id":104, "name":"Fresón", "price":4.50}, {"id":111, "name":"Arándanos", "price":2.50}, {"id":106, "name":"Kiwi", "price":2.80}, {"id":102, "name":"Plátano", "price":1.20}, {"id":208, "name":"Espinacas", "price":2.10}]'
+                                style="width: 100%;">Añadir al carrito</button>
+                        </div>
+                    </div>
+
+                    <!-- Recipe 3 -->
+                    <div class="recipe-card">
+                        <div class="recipe-img tutorial-trigger" data-title="Salteado de la Huerta"
+                            data-img="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800"
+                            data-steps='["Corta el brócoli en ramilletes pequeños y lamina los champiñones.", "Pela y pica la zanahoria en bastones finos.", "Saltea los espárragos y la berenjena en una sartén con poco aceite.", "Añade el resto de verduras y cocina a fuego fuerte durante 5-7 minutos."]'>
+                            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800"
+                                alt="Receta de Salteado de la Huerta con brócoli y espárragos" width="800" height="600"
+                                loading="lazy">
+                        </div>
+                        <div class="recipe-content">
+                            <span class="recipe-tag">Proteína Vegetal</span>
+                            <h3>Salteado de la Huerta</h3>
+                            <p>Brócoli al dente, espárragos trigueros y champiñones laminados. Sano y delicioso.</p>
+                            <div class="recipe-ingredients">
+                                <span class="ingredient-tag">Brócoli</span>
+                                <span class="ingredient-tag">Zanahoria</span>
+                                <span class="ingredient-tag">Espárragos</span>
+                                <span class="ingredient-tag">Champiñones</span>
+                                <span class="ingredient-tag">Berenjena</span>
+                            </div>
+                            <button class="btn btn-primary add-recipe-btn"
+                                data-items='[{"id":203, "name":"Brócoli", "price":1.80}, {"id":202, "name":"Zanahorias", "price":0.90}, {"id":213, "name":"Espárragos", "price":2.90}, {"id":214, "name":"Champiñones", "price":1.50}, {"id":210, "name":"Berenjena", "price":1.60}]'
+                                style="width: 100%;">Añadir al carrito</button>
+                        </div>
+                    </div>
+
+                    <!-- Recipe 4 -->
+                    <div class="recipe-card">
+                        <div class="recipe-img tutorial-trigger" data-title="Poke Bowl Veggie"
+                            data-img="https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?auto=format&fit=crop&q=80&w=800"
+                            data-steps='["Prepara una base de lechuga cortada en bol grande.", "Corta el aguacate en láminas y la remolacha en dados.", "Lamina el rábano y el mango para darle el toque dulce.", "Sirve los ingredientes por separado sobre la lechuga y aliña al gusto."]'>
+                            <img src="https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?auto=format&fit=crop&q=80&w=800"
+                                alt="Receta de Poke Bowl Veggie con aguacate y remolacha" width="800" height="600"
+                                loading="lazy">
+                        </div>
+                        <div class="recipe-content">
+                            <span class="recipe-tag">Nutritivo</span>
+                            <h3>Poke Bowl Veggie</h3>
+                            <p>Remolacha, aguacate cremoso y rábano crujiente sobre una base de hojas verdes frescas.
+                            </p>
+                            <div class="recipe-ingredients">
+                                <span class="ingredient-tag">Aguacate</span>
+                                <span class="ingredient-tag">Remolacha</span>
+                                <span class="ingredient-tag">Rábano</span>
+                            </div>
+                            <button class="btn btn-primary add-recipe-btn"
+                                data-items='[{"id":120, "name":"Aguacate Hass", "price":1.80}, {"id":220, "name":"Remolacha", "price":1.50}, {"id":219, "name":"Rábano", "price":0.90}, {"id":204, "name":"Lechuga", "price":1.10}, {"id":108, "name":"Mango", "price":3.20}]'
+                                style="width: 100%;">Añadir al carrito</button>
+                        </div>
+                    </div>
+
+                    <!-- Recipe 5 -->
+                    <div class="recipe-card">
+                        <div class="recipe-img tutorial-trigger" data-title="Horneado de Otoño"
+                            data-img="https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&q=80&w=800"
+                            data-steps='["Precalienta el horno a 200°C.", "Corta la calabaza en rodajas y el puerro en trozos grandes.", "Coloca todo en una bandeja con los ajos enteros y un chorro de aceite.", "Hornea durante 25-30 minutos hasta que la verdura esté tierna."]'>
+                            <img src="https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&q=80&w=800"
+                                alt="Receta de Horneado de Otoño con calabaza y puerros" width="800" height="600"
+                                loading="lazy">
+                        </div>
+                        <div class="recipe-content">
+                            <span class="recipe-tag">Alto en Fibra</span>
+                            <h3>Horneado de Otoño</h3>
+                            <p>Calabaza asada con puerros, ajo dulce y el toque aromático del jengibre fresco.</p>
+                            <div class="recipe-ingredients">
+                                <span class="ingredient-tag">Calabaza</span>
+                                <span class="ingredient-tag">Puerro</span>
+                                <span class="ingredient-tag">Ajo</span>
+                            </div>
+                            <button class="btn btn-primary add-recipe-btn"
+                                data-items='[{"id":217, "name":"Calabaza", "price":2.50}, {"id":216, "name":"Puerro", "price":0.70}, {"id":215, "name":"Ajo Blanco", "price":0.50}, {"id":236, "name":"Jengibre", "price":0.90}]'
+                                style="width: 100%;">Añadir al carrito</button>
+                        </div>
+                    </div>
+
+                    <!-- Recipe 6 -->
+                    <div class="recipe-card">
+                        <div class="recipe-img tutorial-trigger" data-title="Copa de Fruta Vital"
+                            data-img="https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?auto=format&fit=crop&q=80&w=800"
+                            data-steps='["Limpia y corta la piña Gold en dados uniformes.", "Extrae las semillas de la papaya y trocéala.", "Añade las frambuesas silvestres con cuidado.", "Mezcla suavemente en una copa y sirve bien frío."]'>
+                            <img src="https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?auto=format&fit=crop&q=80&w=800"
+                                alt="Receta de Copa de Fruta Vital con piña y papaya" width="800" height="600"
+                                loading="lazy">
+                        </div>
+                        <div class="recipe-content">
+                            <span class="recipe-tag">Postre Natural</span>
+                            <h3>Copa de Fruta Vital</h3>
+                            <p>Una refrescante mezcla de piña Gold, papaya exótica y frambuesas silvestres.</p>
+                            <div class="recipe-ingredients">
+                                <span class="ingredient-tag">Piña</span>
+                                <span class="ingredient-tag">Papaya</span>
+                                <span class="ingredient-tag">Frambuesas</span>
+                            </div>
+                            <button class="btn btn-primary add-recipe-btn"
+                                data-items='[{"id":107, "name":"Piña Gold", "price":2.50}, {"id":119, "name":"Papaya", "price":3.80}, {"id":112, "name":"Frambuesas", "price":2.80}]'
+                                style="width: 100%;">Añadir al carrito</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <!-- Why Us Section -->
+        <!-- Testimonials Section -->
+        <section id="testimonios" class="testimonials">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Lo que dicen <span class="text-gradient">nuestros clientes</span></h2>
+                    <p>La confianza de cientos de familias nos avala</p>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"La calidad de la fruta es de otro nivel. Los mangos parecen mantequilla y los tomates huelen
+                            a
+                            campo de verdad."</p>
+                        <div class="user">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop"
+                                alt="Ana García - Cliente de Frutería Nexus" width="100" height="100" loading="lazy">
+                            <div class="user-info">
+                                <strong>Ana García</strong>
+                                <span>Clienta habitual</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"El pedido llegó en menos de 24h. Todo impecable, sin plásticos innecesarios. Se nota el
+                            cariño
+                            en cada caja."</p>
+                        <div class="user">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop"
+                                alt="Carlos Ruiz - Cliente de Frutería Nexus" width="100" height="100" loading="lazy">
+                            <div class="user-info">
+                                <strong>Carlos Ruiz</strong>
+                                <span>Suscrito a Caja Familiar</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"Buscaba fruta real para mis hijos y Nexus ha sido un descubrimiento. Dulce, fresca y
+                            directísima
+                            del huerto."</p>
+                        <div class="user">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop"
+                                alt="Marta Soler - Cliente de Frutería Nexus" width="100" height="100" loading="lazy">
+                            <div class="user-info">
+                                <strong>Marta Soler</strong>
+                                <span>Amante de los Smoothies</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Us Section -->
+        <section id="nosotros" class="features reveal">
+            <div class="container grid-3">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-tractor">
+                            <path
+                                d="m10 11 11 .9c.6 0 .9.5.8 1.1l-.8 7.1c-.1.5-.6.9-1.1.9H4c-.5 0-1-.4-1.1-.9L2.1 13c-.1-.6.3-1.1.8-1.1l11-.9" />
+                            <path d="M7 15V4c0-.6.4-1 1-1h2c.6 0 1 .4 1 1v11" />
+                            <path d="m12 11 1-2a1 1 0 0 1 1-.6h2.2a1 1 0 0 1 .9 1.1L16 11" />
+                            <circle cx="7" cy="18" r="2" />
+                            <circle cx="17" cy="18" r="4" />
+                            <path d="M13 18h2" />
+                        </svg>
+                    </div>
+                    <h3>Directo del Campo</h3>
+                    <p>Sin intermediarios, recolectado en su punto óptimo de maduración.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-truck">
+                            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" />
+                            <path d="M15 18H9" />
+                            <path d="M19 18h2a1 1 0 0 0 1-1v-5l-4-4h-3.5" />
+                            <circle cx="7" cy="18" r="2" />
+                            <circle cx="17" cy="18" r="2" />
+                        </svg>
+                    </div>
+                    <h3>Envío Ultra-Rápido</h3>
+                    <p>Recibe tu pedido en menos de 24 horas en condiciones óptimas.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-leaf">
+                            <path
+                                d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+                            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
+                        </svg>
+                    </div>
+                    <h3>Sostenibilidad</h3>
+                    <p>Packaging 100% biodegradable y apoyo al comercio local.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Checkout Section -->
+        <section id="checkout" class="checkout-section" style="padding: 5rem 0; background: white;">
+            <div class="container">
+                <div class="checkout-container" style="max-width: 900px; margin: 0 auto;">
+                    <div class="section-header" style="text-align: center; margin-bottom: 3rem;">
+                        <h2>Finalizar <span class="text-gradient">Pedido</span></h2>
+                        <p>Completa tus datos para recibir tu fruta fresca</p>
+                    </div>
+
+                    <div class="checkout-grid">
+                        <form id="payment-form" class="checkout-form">
+                            <!-- Step 1: Shipping -->
+                            <div id="step-shipping" class="form-step active">
+                                <div class="form-section" style="margin-bottom: 2rem;">
+                                    <h3 style="margin-bottom: 1.5rem; color: var(--primary);">1. Información de Envío
+                                    </h3>
+                                    <div class="form-group">
+                                        <input type="text" id="cust-name" placeholder="Nombre completo" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="cust-street" placeholder="Dirección / Calle" required>
+                                    </div>
+                                    <div class="grid-2-form">
+                                        <div class="form-group">
+                                            <input type="text" id="cust-number" placeholder="Número" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" id="cust-floor" placeholder="Piso / Puerta">
+                                        </div>
+                                    </div>
+                                    <div class="grid-2-form">
+                                        <div class="form-group">
+                                            <input type="text" id="cust-zip" placeholder="Código Postal" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" id="cust-city" placeholder="Ciudad" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" id="btn-to-payment" class="btn btn-primary"
+                                    style="width: 100%; padding: 1.25rem; font-size: 1.1rem; border-radius: 50px;">
+                                    Continuar al Pago
+                                </button>
+                            </div>
+
+                            <!-- Step 2: Payment (Hidden initially) -->
+                            <div id="step-payment" class="form-step" style="display: none;">
+                                <div class="form-section" style="margin-bottom: 2rem;">
+                                    <div
+                                        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+                                        <h3 style="color: var(--primary); margin: 0;">2. Detalles de Pago (Stripe)</h3>
+                                        <button type="button" id="btn-back-to-shipping"
+                                            style="background: none; border: none; color: var(--text-muted); cursor: pointer; text-decoration: underline; font-size: 0.9rem;">Editar
+                                            envío</button>
+                                    </div>
+                                    <div id="payment-element" class="stripe-container"
+                                        style="padding: 1rem; border: 1px solid #eee; border-radius: 12px; background: #fdfdfd;">
+                                        <!-- Stripe Elements will be injected here -->
+                                        <p style="color: var(--text-muted); font-size: 0.9rem;">Cargando pasarela
+                                            segura...
+                                        </p>
+                                    </div>
+                                    <div id="card-errors" role="alert"
+                                        style="color: #ef4444; font-size: 0.8rem; margin-top: 0.5rem;"></div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary submit-pay" id="submit-pay"
+                                    style="width: 100%; padding: 1.25rem; font-size: 1.1rem; border-radius: 50px;">
+                                    <span class="btn-text">Confirmar y Pagar</span>
+                                    <div class="loader" id="pay-loader"
+                                        style="display: none; border: 3px solid rgba(255,255,255,.3); border-top: 3px solid #fff; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite;">
+                                    </div>
+                                </button>
+                            </div>
+
+                            <div class="payment-summary"
+                                style="background: #f8fafc; padding: 1.5rem; border-radius: 1rem; margin-bottom: 1.5rem;">
+                                <h4
+                                    style="margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em;">
+                                    Resumen del Pedido</h4>
+                                <div id="checkout-items"
+                                    style="margin-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 1rem;">
+                                    <!-- Items will be injected here -->
+                                </div>
+                                <div class="summary-line"
+                                    style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Subtotal:</span>
+                                    <span id="summary-subtotal">0.00€</span>
+                                </div>
+                                <div class="summary-line"
+                                    style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Envío:</span>
+                                    <span class="free" style="color: var(--primary); font-weight: 600;">GRATIS</span>
+                                </div>
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 1rem 0;">
+                                <div class="summary-line total"
+                                    style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.2rem;">
+                                    <span>Total:</span>
+                                    <span id="summary-total">0.00€</span>
+                                </div>
+                            </div>
+
+                        </form>
+
+                        <div class="checkout-info">
+                            <div class="info-card"
+                                style="background: #f0fdf4; padding: 1.5rem; border-radius: 1.5rem; margin-bottom: 1.5rem;">
+                                <h4 style="margin-bottom: 0.5rem;">🔒 Pago Seguro</h4>
+                                <p style="font-size: 0.9rem; color: #374151;">Tus datos están protegidos mediante
+                                    cifrado
+                                    SSL de 256 bits a través de Stripe.</p>
+                            </div>
+                            <div class="info-card" style="background: #eff6ff; padding: 1.5rem; border-radius: 1.5rem;">
+                                <h4 style="margin-bottom: 0.5rem;">📦 Envío en 24h</h4>
+                                <p style="font-size: 0.9rem; color: #374151;">Si pides antes de las 14:00, recibes tu
+                                    pedido
+                                    mañana mismo.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Modal (dentro de sección) -->
+            <div id="success-screen"
+                style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">✅</div>
+                <h2>¡Pedido Realizado!</h2>
+                <p>Gracias por confiar en Frutería Nexus. Recibirás un correo con los detalles.</p>
+                <button class="btn btn-primary" id="finish-success"
+                    style="margin-top: 2rem; border-radius: 50px; padding: 1rem 3rem;">Seguir Comprando</button>
+            </div>
+        </section>
+
+
+
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-info">
+                <span class="logo-text">Frutería <span class="text-gradient">Nexus</span></span>
+                <p>Frescura diaria para una vida mejor.</p>
+            </div>
+            <div class="footer-social">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+            </div>
+            <div class="footer-copy">
+                &copy; 2026 Frutería Nexus. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Drawer -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3>Tu Carrito</h3>
+            <button class="close-cart" id="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Items will be injected here -->
+            <p class="empty-msg">Tu carrito está vacío</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">0,00€</span>
+            </div>
+            <div class="cart-actions">
+                <button class="btn btn-primary checkout-btn" id="card-pay-btn">Pagar con Tarjeta</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Nexus Chat Widget -->
+    <div id="nexus-chat" class="nexus-chat-widget">
+        <button id="chat-trigger" class="chat-trigger-btn">
+            <span class="chat-trigger-icon">💬</span>
+            <span class="chat-trigger-text">¿Necesitas ayuda?</span>
+        </button>
+        <div id="chat-box" class="chat-box">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="chat-avatar">🌿</div>
+                    <div>
+                        <div class="chat-title">Asistente Nexus</div>
+                        <div class="chat-status">Online</div>
+                    </div>
+                </div>
+                <button id="chat-close" class="chat-close-lite">&times;</button>
+            </div>
+            <div id="chat-log" class="chat-log">
+                <div class="chat-msg bot">¡Hola! Soy tu asistente de Frutería Nexus. ¿En qué puedo ayudarte hoy? 🍎</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" class="chat-input" placeholder="Escribe tu mensaje...">
+                <button id="chat-send" class="chat-send-btn">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modales (Movidos al final para evitar problemas de stacking context) -->
+    <div id="catalog-modal" class="catalog-modal-overlay">
+        <div class="catalog-modal-container">
+            <button id="close-catalog" class="catalog-close-btn">&times;</button>
+            <div class="catalog-modal-header">
+                <h2 id="catalog-title">Explorar <span class="text-gradient">Productos</span></h2>
+                <div class="mini-category-nav">
+                    <button class="mini-filter-btn active" data-filter="all">Todo</button>
+                    <button class="mini-filter-btn" data-filter="fruta">Frutas</button>
+                    <button class="mini-filter-btn" data-filter="verdura">Verduras</button>
+                </div>
+                <div class="catalog-search-wrapper">
+                    <input type="text" id="catalog-search" placeholder="Busca tu producto...">
+                    <span class="catalog-search-icon">🔍</span>
+                    <button id="clear-catalog-search" class="clear-search-btn" aria-label="Limpiar búsqueda" style="display: none;">&times;</button>
+                </div>
+            </div>
+            <div id="catalog-modal-content">
+                <div class="product-grid">
+                    <!-- Fruits (20) -->
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=500&q=80"
+                                alt="Manzana">
+                            <h4>Manzana Roja</h4>
+                            <span class="price">1.50€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="101"
+                                data-name="Manzana Roja" data-price="1.50">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1481349510330-831566f47002?w=500&q=80"
+                                alt="Plátano">
+                            <h4>Plátano Canario</h4>
+                            <span class="price">1.20€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="102" data-name="Plátano"
+                                data-price="1.20">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1547514701-42782101795e?w=500&q=80"
+                                alt="Naranja">
+                            <h4>Naranja Valencia</h4>
+                            <span class="price">1.00€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="103" data-name="Naranja"
+                                data-price="1.00">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1518635017498-87f514b751ba?w=500&q=80"
+                                alt="Fresón">
+                            <h4>Fresón</h4>
+                            <span class="price">4.50€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="104" data-name="Fresón"
+                                data-price="4.50">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1601275868399-45bec4f4cd9d?w=500&q=80"
+                                alt="Uvas">
+                            <h4>Uvas blancas</h4>
+                            <span class="price">3.00€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="105" data-name="Uvas"
+                                data-price="3.00">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1618897996318-5a901fa6ca71?w=500&q=80"
+                                alt="Kiwi">
+                            <h4>Kiwi Zespri</h4>
+                            <span class="price">2.80€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="106" data-name="Kiwi"
+                                data-price="2.80">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1587883012610-e3df17d41270?w=500&q=80"
+                                alt="Piña">
+                            <h4>Piña Gold</h4>
+                            <span class="price">2.50€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="107" data-name="Piña"
+                                data-price="2.50">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1601493700631-2b137a94b117?w=500&q=80"
+                                alt="Mango">
+                            <h4>Mango</h4>
+                            <span class="price">3.20€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="108" data-name="Mango"
+                                data-price="3.20">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1589927986089-35812388d1f4?w=500&q=80"
+                                alt="Sandía">
+                            <h4>Sandía</h4>
+                            <span class="price">0.80€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="109" data-name="Sandía"
+                                data-price="0.80">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1615484477778-ca3b77940c25?w=500&q=80"
+                                alt="Pera">
+                            <h4>Pera Conferencia</h4>
+                            <span class="price">1.90€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="110" data-name="Pera"
+                                data-price="1.90">Añadir</button>
+                        </div>
+                    </div>
+                    <!-- New Fruits (111-120) -->
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1491841572138-028f0d832b3f?w=500&q=80"
+                                alt="Arándanos">
+                            <h4>Arándanos</h4>
+                            <span class="price">2.50€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="111" data-name="Arándanos"
+                                data-price="2.50">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1533285900262-639a0449557a?w=500&q=80"
+                                alt="Frambuesas">
+                            <h4>Frambuesas</h4>
+                            <span class="price">2.80€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="112" data-name="Frambuesas"
+                                data-price="2.80">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1473489811807-6f81c967926b?w=500&q=80"
+                                alt="Melocotón">
+                            <h4>Melocotón</h4>
+                            <span class="price">2.20€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="113" data-name="Melocotón"
+                                data-price="2.20">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1528821128474-27f963b067bf?w=500&q=80"
+                                alt="Cerezas">
+                            <h4>Cerezas</h4>
+                            <span class="price">4.90€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="114" data-name="Cerezas"
+                                data-price="4.90">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1571501679680-de32f1f7acc4?w=500&q=80"
+                                alt="Melón">
+                            <h4>Melón Galia</h4>
+                            <span class="price">3.50€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="115" data-name="Melón"
+                                data-price="3.50">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1523307883115-5a308ef6134a?w=500&q=80"
+                                alt="Ciruelas">
+                            <h4>Ciruelas</h4>
+                            <span class="price">1.80€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="116" data-name="Ciruelas"
+                                data-price="1.80">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1601493700631-2b137a94b117?w=500&q=80"
+                                alt="Albaricoque">
+                            <h4>Albaricoque</h4>
+                            <span class="price">2.40€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="117"
+                                data-name="Albaricoque" data-price="2.40">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1610832958506-ee5633842b91?w=500&q=80"
+                                alt="Pomelo">
+                            <h4>Pomelo Rosa</h4>
+                            <span class="price">1.50€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="118" data-name="Pomelo"
+                                data-price="1.50">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1526318472351-c75fcf070305?w=500&q=80"
+                                alt="Papaya">
+                            <h4>Papaya</h4>
+                            <span class="price">3.80€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="119" data-name="Papaya"
+                                data-price="3.80">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="fruta">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=500&q=80"
+                                alt="Aguacate">
+                            <h4>Aguacate Hass</h4>
+                            <span class="price">1.80€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="120" data-name="Aguacate"
+                                data-price="1.80">Añadir</button>
+                        </div>
+                    </div>
+                    <!-- Vegetables (40) -->
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1518977822534-7049a61ee0c2?w=500&q=80"
+                                alt="Tomate">
+                            <h4>Tomate Rama</h4>
+                            <span class="price">2.20€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="201"
+                                data-name="Tomate Rama" data-price="2.20">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1444312645910-ffa973656eba?w=500&q=80"
+                                alt="Zanahoria">
+                            <h4>Zanahorias</h4>
+                            <span class="price">0.90€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="202" data-name="Zanahorias"
+                                data-price="0.90">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1584270354949-c26b0d5b4a0c?w=500&q=80"
+                                alt="Brócoli">
+                            <h4>Brócoli</h4>
+                            <span class="price">1.80€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="203" data-name="Brócoli"
+                                data-price="1.80">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=500&q=80"
+                                alt="Lechuga">
+                            <h4>Lechuga</h4>
+                            <span class="price">1.10€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="204" data-name="Lechuga"
+                                data-price="1.10">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1566232392379-afd9298e6afa?w=500&q=80"
+                                alt="Pimiento">
+                            <h4>Pimiento Rojo</h4>
+                            <span class="price">2.50€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="205"
+                                data-name="Pimiento Rojo" data-price="2.50">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1508747703725-719777637510?w=500&q=80"
+                                alt="Cebolla">
+                            <h4>Cebolla Dulce</h4>
+                            <span class="price">0.85€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="206"
+                                data-name="Cebolla Dulce" data-price="0.85">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1508317469940-e3df4959cf3f?w=500&q=80"
+                                alt="Patata">
+                            <h4>Patata Blanca</h4>
+                            <span class="price">0.75€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="207"
+                                data-name="Patata Blanca" data-price="0.75">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1576044767521-dbdf5b3b0419?w=500&q=80"
+                                alt="Espinacas">
+                            <h4>Espinacas</h4>
+                            <span class="price">2.10€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="208" data-name="Espinacas"
+                                data-price="2.10">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1590301157890-4810ed352733?w=500&q=80"
+                                alt="Pepino">
+                            <h4>Pepino</h4>
+                            <span class="price">1.30€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="209" data-name="Pepino"
+                                data-price="1.30">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1524316051393-d1512bf40590?w=500&q=80"
+                                alt="Berenjena">
+                            <h4>Berenjena</h4>
+                            <span class="price">1.60€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="210" data-name="Berenjena"
+                                data-price="1.60">Añadir</button>
+                        </div>
+                    </div>
+                    <!-- New Vegetables (211-240) -->
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1594282486552-05b4d80fbb9f?w=500&q=80"
+                                alt="Calabacín">
+                            <h4>Calabacín</h4>
+                            <span class="price">1.20€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="211" data-name="Calabacín"
+                                data-price="1.20">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1510627498534-cf7e9002facc?w=500&q=80"
+                                alt="Coliflor">
+                            <h4>Coliflor</h4>
+                            <span class="price">1.90€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="212" data-name="Coliflor"
+                                data-price="1.90">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1515471209610-dae1c92d81d3?w=500&q=80"
+                                alt="Espárragos">
+                            <h4>Espárragos Trigueros</h4>
+                            <span class="price">2.90€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="213" data-name="Espárragos"
+                                data-price="2.90">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1504675091138-8027d0f042d5?w=500&q=80"
+                                alt="Champiñones">
+                            <h4>Champiñones</h4>
+                            <span class="price">1.50€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="214"
+                                data-name="Champiñones" data-price="1.50">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1592533011832-628d011c1d07?w=500&q=80"
+                                alt="Ajo">
+                            <h4>Ajo Blanco</h4>
+                            <span class="price">0.50€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="215" data-name="Ajo"
+                                data-price="0.50">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1582294101185-5026e6498305?w=500&q=80"
+                                alt="Puerro">
+                            <h4>Puerro</h4>
+                            <span class="price">0.70€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="216" data-name="Puerro"
+                                data-price="0.70">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1506807803488-8eafc155dd60?w=500&q=80"
+                                alt="Calabaza">
+                            <h4>Calabaza</h4>
+                            <span class="price">2.50€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="217" data-name="Calabaza"
+                                data-price="2.50">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1592394533824-9440e5d68530?w=500&q=80"
+                                alt="Apio">
+                            <h4>Apio</h4>
+                            <span class="price">1.20€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="218" data-name="Apio"
+                                data-price="1.20">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1591850116634-927ae2e817a3?w=500&q=80"
+                                alt="Rábano">
+                            <h4>Rábano</h4>
+                            <span class="price">0.90€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="219" data-name="Rábano"
+                                data-price="0.90">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1622350810334-954992524584?w=500&q=80"
+                                alt="Remolacha">
+                            <h4>Remolacha</h4>
+                            <span class="price">1.50€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="220" data-name="Remolacha"
+                                data-price="1.50">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1444312645910-ffa973656eba?w=500&q=80"
+                                alt="Judías">
+                            <h4>Judías Verdes</h4>
+                            <span class="price">3.20€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="221"
+                                data-name="Judías Verdes" data-price="3.20">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1604938820619-338ced68989a?w=500&q=80"
+                                alt="Alcachofa">
+                            <h4>Alcachofa</h4>
+                            <span class="price">1.20€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="222" data-name="Alcachofa"
+                                data-price="1.20">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1592392764312-320d9f9c06ec?w=500&q=80"
+                                alt="Guisantes">
+                            <h4>Guisantes</h4>
+                            <span class="price">4.50€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="223" data-name="Guisantes"
+                                data-price="4.50">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1582294101185-5026e6498305?w=500&q=80"
+                                alt="Haba">
+                            <h4>Haba Fresca</h4>
+                            <span class="price">4.20€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="224" data-name="Haba"
+                                data-price="4.20">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1601493700631-2b137a94b117?w=500&q=80"
+                                alt="Lombarda">
+                            <h4>Col Lombarda</h4>
+                            <span class="price">1.80€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="225" data-name="Lombarda"
+                                data-price="1.80">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1594282486552-05b4d80fbb9f?w=500&q=80"
+                                alt="Repollo">
+                            <h4>Repollo</h4>
+                            <span class="price">1.50€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="226" data-name="Repollo"
+                                data-price="1.50">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1576044767521-dbdf5b3b0419?w=500&q=80"
+                                alt="Acelgas">
+                            <h4>Acelgas</h4>
+                            <span class="price">1.90€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="227" data-name="Acelgas"
+                                data-price="1.90">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=500&q=80"
+                                alt="Canónigos">
+                            <h4>Canónigos</h4>
+                            <span class="price">1.50€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="228" data-name="Canónigos"
+                                data-price="1.50">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1601493700631-2b137a94b117?w=500&q=80"
+                                alt="Rúcula">
+                            <h4>Rúcula</h4>
+                            <span class="price">1.40€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="229" data-name="Rúcula"
+                                data-price="1.40">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1594282486552-05b4d80fbb9f?w=500&q=80"
+                                alt="Endivia">
+                            <h4>Endivia</h4>
+                            <span class="price">2.10€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="230" data-name="Endivia"
+                                data-price="2.10">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1592394533824-9440e5d68530?w=500&q=80"
+                                alt="Hinojo">
+                            <h4>Hinojo</h4>
+                            <span class="price">1.80€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="231" data-name="Hinojo"
+                                data-price="1.80">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=500&q=80"
+                                alt="Boniato">
+                            <h4>Boniato</h4>
+                            <span class="price">1.95€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="232" data-name="Boniato"
+                                data-price="1.95">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1508317469940-e3df4959cf3f?w=500&q=80"
+                                alt="Yuca">
+                            <h4>Yuca</h4>
+                            <span class="price">2.30€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="233" data-name="Yuca"
+                                data-price="2.30">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1591850116634-927ae2e817a3?w=500&q=80"
+                                alt="Nabo">
+                            <h4>Nabo Blanco</h4>
+                            <span class="price">0.80€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="234" data-name="Nabo"
+                                data-price="0.80">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1591850116634-927ae2e817a3?w=500&q=80"
+                                alt="Chirivía">
+                            <h4>Chirivía</h4>
+                            <span class="price">2.10€/kg</span>
+                            <button class="btn btn-primary add-to-cart" data-id="235" data-name="Chirivía"
+                                data-price="2.10">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1615484477201-9f495c16ee1b?w=500&q=80"
+                                alt="Jengibre">
+                            <h4>Jengibre</h4>
+                            <span class="price">0.90€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="236" data-name="Jengibre"
+                                data-price="0.90">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1615484477201-9f495c16ee1b?w=500&q=80"
+                                alt="Cúrcuma">
+                            <h4>Cúrcuma Fresca</h4>
+                            <span class="price">1.20€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="237" data-name="Cúrcuma"
+                                data-price="1.20">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=500&q=80"
+                                alt="Chile">
+                            <h4>Chile Rojo</h4>
+                            <span class="price">0.40€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="238" data-name="Chile"
+                                data-price="0.40">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1508747703725-719777637510?w=500&q=80"
+                                alt="Chalota">
+                            <h4>Chalotas</h4>
+                            <span class="price">1.50€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="239" data-name="Chalota"
+                                data-price="1.50">Añadir</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-category="verdura">
+                        <div class="small-card">
+                            <img src="https://images.unsplash.com/photo-1551754655-cd27e197c362?w=500&q=80"
+                                alt="Maíz">
+                            <h4>Maíz Dulce</h4>
+                            <span class="price">1.10€/ud</span>
+                            <button class="btn btn-primary add-to-cart" data-id="240" data-name="Maíz"
+                                data-price="1.10">Añadir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="recipe-modal" class="recipe-modal-overlay">
+        <div class="recipe-modal-container">
+            <button class="recipe-modal-close" id="close-recipe">&times;</button>
+            <img id="recipe-modal-img" src="" alt="Receta" class="recipe-modal-header-img">
+            <div class="recipe-modal-body">
+                <h2 id="recipe-modal-title">Título Receta</h2>
+                <div id="recipe-modal-instructions" class="recipe-instructions">
+                    <!-- Pasos dinámicos -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+
+</html>
