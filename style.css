@@ -1746,17 +1746,42 @@ footer {
         /* Move cart before menu if desired, but sticking to design */
     }
 
-    /* Fix Catalog Modal on Mobile */
+    /* Fix Catalog Modal on Mobile - FULL SCREEN */
+    .catalog-modal-overlay {
+        padding: 0;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
+    .catalog-modal-container {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        transform: none !important;
+    }
+
     .catalog-modal-header {
         flex-direction: column;
-        padding: 3.5rem 1.5rem 1.5rem;
+        padding: 4rem 1.5rem 1.5rem;
         gap: 1.5rem;
         text-align: center;
+        border-radius: 0;
     }
 
     .catalog-close-btn {
         top: 1rem;
-        right: 1rem;
+        right: 1.2rem;
+        background: rgba(255, 255, 255, 0.9);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
     .mini-category-nav {
@@ -1771,7 +1796,7 @@ footer {
     }
 
     #catalog-modal-content {
-        padding: 1.5rem;
+        padding: 1.5rem 1rem 5rem; /* Extra bottom padding for floating elements */
     }
 
     #catalog-modal-content .product-grid {
