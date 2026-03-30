@@ -1183,8 +1183,11 @@ footer {
 
 .cart-items {
     flex: 1;
+    max-height: 560px; /* Limit to approx 7 items before scroll */
     overflow-y: auto;
     padding: 2rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) transparent;
 }
 
 .empty-msg {
@@ -2195,3 +2198,54 @@ footer {
     background: #035e44;
     transform: translateY(-1px);
 }
+
+/* Status Light for Toggle Buttons */
+.status-light {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #94a3b8; /* Gray when off */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    pointer-events: none;
+    border: 2px solid white;
+}
+
+.status-light.active {
+    background-color: #facc15; /* Yellow when on */
+    box-shadow: 0 0 10px #facc15, 0 0 20px rgba(250, 204, 21, 0.6);
+}
+
+/* Responsividad del Chat cuando el Carrito está abierto */
+body.cart-open .nexus-chat-widget {
+    transform: scale(0.85);
+    transform-origin: bottom left;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    z-index: 40;
+}
+
+body.cart-open .chat-box {
+    width: 380px !important;
+    max-height: 500px !important;
+}
+
+/* Estilos para el formulario reubicado en el nav */
+#checkout-section-nav {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+#checkout-section-nav input::placeholder {
+    color: #94a3b8;
+    font-size: 0.8rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+

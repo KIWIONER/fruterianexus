@@ -41,8 +41,9 @@ const checkoutSection = document.getElementById('checkout');
 const paymentForm = document.getElementById('payment-form');
 const summarySubtotal = document.getElementById('summary-subtotal');
 const summaryTotal = document.getElementById('summary-total');
-const successScreen = document.getElementById('success-screen');
-const finishSuccess = document.getElementById('finish-success');
+const cartMainContent = document.getElementById('cart-main-content');
+const cartSuccessContent = document.getElementById('cart-success-content');
+const btnSuccessClose = document.getElementById('btn-success-close');
 const payLoader = document.getElementById('pay-loader');
 
 // Catalog Modal Selectors
@@ -51,7 +52,7 @@ const closeCatalog = document.getElementById('close-catalog');
 const productItems = document.querySelectorAll('.product-item');
 const catalogTitle = document.getElementById('catalog-title');
 const catalogSearch = document.getElementById('catalog-search');
-const clearSearchBtn = document.getElementById('clear-search');
+const clearSearchBtn = document.getElementById('clear-catalog-search');
 const catCards = document.querySelectorAll('.cat-card');
 
 // Chat / AI Selectors
@@ -76,15 +77,26 @@ function toggleCart() {
     if (!cartDrawer) return;
     
     const isOpening = cartDrawer.classList.contains('hidden');
-    
-    // Si abrimos la lista, cerramos el chat IA si está abierto para evitar solapamiento
-    if (isOpening && chatBox && chatBox.classList.contains('active')) {
-        chatBox.classList.remove('active');
-    }
+    const cartLight = document.getElementById('cart-status-light');
 
-    cartDrawer.classList.toggle('hidden');
-    
-    // Animación de entrada suave si fuera necesario, aunque Tailwind handlea el hidden
+    if (isOpening) {
+        cartDrawer.classList.remove('hidden');
+        document.body.classList.add('cart-open');
+        if (cartLight) cartLight.classList.add('active');
+        // Si abrimos la lista, cerramos el chat IA si está abierto
+        if (typeof toggleChatUI === 'function') {
+            toggleChatUI(false); 
+        } else if (chatBox && chatBox.classList.contains('active')) {
+            chatBox.classList.remove('active');
+        }
+    } else {
+        cartDrawer.classList.add('hidden');
+        document.body.classList.remove('cart-open');
+        if (cartLight) cartLight.classList.remove('active');
+        // Ocultar sección de checkout al cerrar carrito
+        const checkoutNav = document.getElementById('checkout-section-nav');
+        if (checkoutNav) checkoutNav.classList.add('hidden');
+    }
 }
 
 function syncCatalogButtons() {
@@ -117,7 +129,8 @@ function syncCatalogButtons() {
                     <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md active:scale-95 add-to-cart" 
                             data-id="${id}" 
                             data-name="${name}" 
-                            data-price="${price}">
+                            data-price="${price}"
+                            data-image="${cartItem ? cartItem.image : (container.dataset.image || '')}">
                         <span class="material-symbols-outlined pointer-events-none">add_shopping_cart</span>
                     </button>
                 `;
@@ -140,8 +153,11 @@ function updateCartUI() {
         cart.forEach(item => {
             total += item.price * item.quantity;
             const itemElement = document.createElement('div');
-            itemElement.className = 'flex items-center justify-between p-4 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-100 dark:border-zinc-800 transition-all hover:shadow-md group';
+            itemElement.className = 'flex items-center gap-4 p-4 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-100 dark:border-zinc-800 transition-all hover:shadow-md group';
             itemElement.innerHTML = `
+                <div class="w-12 h-12 rounded-xl overflow-hidden bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex-shrink-0 shadow-sm">
+                    <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=200&q=80'">
+                </div>
                 <div class="flex-1">
                     <h4 class="font-bold text-on-surface text-sm uppercase tracking-tight">${item.name}</h4>
                     <p class="text-[11px] text-zinc-500 font-medium mt-0.5">${item.price.toFixed(2)}€ x ${item.quantity}</p>
@@ -192,18 +208,20 @@ function updateCartUI() {
 }
 
 function addToCart(btnOrData) {
-    let id, name, price;
+    let id, name, price, image;
     
     // Si viene de un evento/botón del DOM
     if (btnOrData instanceof HTMLElement) {
         id = btnOrData.dataset.id;
         name = btnOrData.dataset.name;
         price = parseFloat(btnOrData.dataset.price);
+        image = btnOrData.dataset.image || 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=200&q=80';
     } else {
         // Si viene como objeto directo (ej: desde el chat)
         id = btnOrData.id;
         name = btnOrData.name;
         price = parseFloat(btnOrData.price);
+        image = btnOrData.image || 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=200&q=80';
     }
 
     if (!id || !name || isNaN(price)) return;
@@ -213,7 +231,7 @@ function addToCart(btnOrData) {
         cart[itemIndex].quantity++;
         showToast(`${name} añadido a la lista de la compra`, 'success');
     } else {
-        cart.push({ id, name, price: parseFloat(price), quantity: 1 });
+        cart.push({ id, name, price: parseFloat(price), quantity: 1, image });
         showToast(`${name} añadido a la lista de la compra`, 'success');
     }
     updateCartUI();
@@ -356,21 +374,22 @@ function initCheckout() {
         return;
     }
 
-    checkoutSection.style.display = 'block';
+    const checkoutNav = document.getElementById('checkout-section-nav');
+    if (checkoutNav) {
+        checkoutNav.classList.remove('hidden');
+        checkoutNav.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
     // Resetear a paso 1
-    document.getElementById('step-shipping').style.display = 'block';
-    document.getElementById('step-payment').style.display = 'none';
+    const stepShipping = document.getElementById('step-shipping');
+    const stepPayment = document.getElementById('step-payment');
+    if (stepShipping) stepShipping.classList.remove('hidden');
+    if (stepPayment) stepPayment.classList.add('hidden');
 
     let total = 0;
     cart.forEach(item => total += item.price * item.quantity);
     summarySubtotal.textContent = `${total.toFixed(2)}€`;
     summaryTotal.textContent = `${total.toFixed(2)}€`;
-
-    if (catalogModal.classList.contains('active')) closeCatalogModal();
-    if (cartDrawer.classList.contains('active')) toggleCart();
-
-    checkoutSection.scrollIntoView({ behavior: 'smooth' });
 }
 
 function goToPayment() {
@@ -387,19 +406,18 @@ function goToPayment() {
     }
 
     // Transición visual
-    document.getElementById('step-shipping').style.display = 'none';
-    document.getElementById('step-payment').style.display = 'block';
+    document.getElementById('step-shipping').classList.add('hidden');
+    document.getElementById('step-payment').classList.remove('hidden');
 
-    // Montar Stripe ahora que el contenedor es visible
-    setTimeout(mountStripe, 100);
-
-    checkoutSection.scrollIntoView({ behavior: 'smooth' });
+    // Montar Stripe ahora que el contenedor es visible (si existe la función)
+    if (typeof mountStripe === 'function') {
+        setTimeout(mountStripe, 100);
+    }
 }
 
 function backToShipping() {
-    document.getElementById('step-payment').style.display = 'none';
-    document.getElementById('step-shipping').style.display = 'block';
-    checkoutSection.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('step-payment').classList.add('hidden');
+    document.getElementById('step-shipping').classList.remove('hidden');
 }
 
 async function handlePayment(e) {
@@ -475,7 +493,26 @@ async function handlePayment(e) {
                 // Éxito total
                 setTimeout(() => {
                     payLoader.style.display = 'none';
-                    successScreen.style.display = 'flex';
+                    
+                    // Llenar datos de éxito
+                    const orderId = '#NX-' + result.paymentIntent.id.substring(result.paymentIntent.id.length - 6).toUpperCase();
+                    document.getElementById('success-order-id').textContent = orderId;
+                    document.getElementById('success-total').textContent = summaryTotal.textContent;
+                    
+                    const cardBrand = result.paymentIntent.payment_method?.card?.brand || 'Tarjeta';
+                    const cardLast4 = result.paymentIntent.payment_method?.card?.last4 || '****';
+                    document.getElementById('success-method').textContent = `${cardBrand} •••• ${cardLast4}`;
+                    
+                    document.getElementById('success-address').innerHTML = `
+                        ${customerData.address_line1}<br/>
+                        ${customerData.address_line2 ? customerData.address_line2 + '<br/>' : ''}
+                        ${customerData.address_zip}, ${customerData.address_city}, España
+                    `;
+
+                    // Mostrar pantalla de éxito y ocultar contenido principal del carrito
+                    if (cartMainContent) cartMainContent.classList.add('hidden');
+                    if (cartSuccessContent) cartSuccessContent.classList.remove('hidden');
+                    
                     cart = [];
                     updateCartUI();
 
@@ -496,8 +533,25 @@ async function handlePayment(e) {
 }
 
 function closeSuccess() {
-    successScreen.style.display = 'none';
+    if (cartSuccessContent) cartSuccessContent.classList.add('hidden');
+    if (cartMainContent) cartMainContent.classList.remove('hidden');
+    
+    // Resetear checkout back to step 1
+    const stepShipping = document.getElementById('step-shipping');
+    const stepPayment = document.getElementById('step-payment');
+    if (stepShipping) stepShipping.classList.remove('hidden');
+    if (stepPayment) stepPayment.classList.add('hidden');
+    
+    // Ocultar nav de checkout
+    const checkoutNav = document.getElementById('checkout-section-nav');
+    if (checkoutNav) checkoutNav.classList.add('hidden');
+    
+    toggleCart(); // Cerrar el carrito
     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+if (btnSuccessClose) {
+    btnSuccessClose.addEventListener('click', closeSuccess);
 }
 
 // --- EVENT LISTENERS ---
@@ -541,28 +595,54 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     });
 });
 
+// Función inteligente para distinguir entre Búsqueda y Consulta IA
+function handleSearchOrAI(query) {
+    if (!query) return;
+    
+    const queryLower = query.toLowerCase();
+    // Heurística: Si es corto (< 4 palabras) y no parece una pregunta compleja
+    const words = query.split(/\s+/).filter(w => w.length > 0);
+    const complexKeywords = ['cómo', 'como', 'por qué', 'porque', 'qué', 'que', 'ayuda', 'necesito', 'explicación', 'diferencia', 'cuál', 'donde', 'dónde'];
+    const isQuestion = queryLower.includes('?') || complexKeywords.some(kw => queryLower.startsWith(kw));
+
+    if (words.length < 4 && !isQuestion) {
+        // ES UNA BÚSQUEDA DE PRODUCTO
+        openCatalog('all');
+        const catalogSearchInput = document.getElementById('catalog-search');
+        if (catalogSearchInput) {
+            catalogSearchInput.value = query;
+            // Disparar evento input para filtrar
+            catalogSearchInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        showToast(`🔍 Buscando "${query}" en el catálogo...`);
+    } else {
+        // ES UNA CONSULTA PARA LA IA
+        if (chatBox) {
+            if (!chatBox.classList.contains('active')) {
+                toggleChatUI(true);
+            }
+            if (chatInput) {
+                chatInput.value = query;
+                askGemini(); // Lanzar la consulta directamente
+            }
+        }
+    }
+}
+
 if (aiSearchBtn) {
     aiSearchBtn.addEventListener('click', () => {
-        if (!chatBox) return;
-        const isActive = chatBox.classList.toggle('active');
-        if (isActive && chatInput) {
-            chatInput.focus();
-        }
+        const query = aiSearchInput.value.trim();
+        handleSearchOrAI(query);
+        aiSearchInput.value = '';
     });
 }
 
 if (aiSearchInput) {
     aiSearchInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-            const msg = aiSearchInput.value.trim();
-            if (msg) {
-                if (!chatBox.classList.contains('active')) {
-                    chatBox.classList.add('active');
-                }
-                chatInput.value = msg;
-                aiSearchInput.value = '';
-                askGemini();
-            }
+            const query = aiSearchInput.value.trim();
+            handleSearchOrAI(query);
+            aiSearchInput.value = '';
         }
     });
 }
@@ -570,18 +650,26 @@ if (aiSearchInput) {
 if (chatTrigger) {
     chatTrigger.addEventListener('click', () => {
         if (chatBox) {
-            chatBox.classList.toggle('active');
-            if (chatBox.classList.contains('active') && chatInput) {
-                chatInput.focus();
-            }
+            const isOpening = !chatBox.classList.contains('active');
+            toggleChatUI(isOpening);
         }
     });
 }
 
+function toggleChatUI(show) {
+    const chatLight = document.getElementById('chat-status-light');
+    if (show) {
+        chatBox.classList.add('active');
+        if (chatLight) chatLight.classList.add('active');
+        if (chatInput) chatInput.focus();
+    } else {
+        chatBox.classList.remove('active');
+        if (chatLight) chatLight.classList.remove('active');
+    }
+}
+
 if (chatClose) {
-    chatClose.addEventListener('click', () => {
-        if (chatBox) chatBox.classList.remove('active');
-    });
+    chatClose.addEventListener('click', () => toggleChatUI(false));
 }
 
 if (ctaChatTrigger) {
@@ -881,7 +969,8 @@ function renderChatProducts(products) {
             addToCart({
                 id: String(id),
                 name: String(name),
-                price: parseFloat(String(price).replace(',', '.'))
+                price: parseFloat(String(price).replace(',', '.')),
+                image: String(image)
             });
         };
         

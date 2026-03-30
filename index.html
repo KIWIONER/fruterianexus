@@ -345,6 +345,7 @@
                 <button id="cart-icon" class="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-colors relative active:scale-95">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
                     <span class="cart-count absolute -top-1 -right-1 bg-emerald-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                    <span id="cart-status-light" class="status-light"></span>
                 </button>
             </div>
         </div>
@@ -374,7 +375,8 @@
 
         <!-- Row 3: Lista de la Compra (Expandible) -->
         <div id="shopping-list-section" class="hidden border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-8 py-8 max-w-screen-2xl mx-auto overflow-hidden transition-all duration-300">
-            <div class="flex flex-col lg:flex-row gap-12">
+            
+            <div id="cart-main-content" class="flex flex-col lg:flex-row gap-12">
                 <!-- Scrollable Items List -->
                 <div class="flex-1">
                     <div class="flex items-center justify-between mb-6">
@@ -415,6 +417,139 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                         Pago 100% Seguro y Encriptado
                     </div>
+
+                    <!-- Relocated Payment/Shipping Form -->
+                    <div id="checkout-section-nav" class="hidden space-y-6 pt-6 border-t border-zinc-100 dark:border-zinc-800">
+                        <form id="payment-form" class="checkout-form space-y-6">
+                            <!-- Step 1: Shipping -->
+                            <div id="step-shipping" class="form-step active space-y-4">
+                                <h3 class="text-sm font-bold text-emerald-700 dark:text-emerald-500 uppercase tracking-widest">1. Información de Envío</h3>
+                                <div class="space-y-3">
+                                    <input type="text" id="cust-name" placeholder="Nombre completo" class="w-full p-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-sm" required>
+                                    <input type="text" id="cust-street" placeholder="Dirección / Calle" class="w-full p-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-sm" required>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <input type="text" id="cust-number" placeholder="Número" class="w-full p-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-sm" required>
+                                        <input type="text" id="cust-floor" placeholder="Piso / Puerta" class="w-full p-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-sm">
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <input type="text" id="cust-zip" placeholder="CP" class="w-full p-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-sm" required>
+                                        <input type="text" id="cust-city" placeholder="Ciudad" class="w-full p-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-sm" required>
+                                    </div>
+                                </div>
+                                <button type="button" id="btn-to-payment" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-xl font-bold transition-all shadow-lg active:scale-95">
+                                    Continuar al Pago
+                                </button>
+                            </div>
+
+                            <!-- Step 2: Payment -->
+                            <div id="step-payment" class="form-step hidden space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-sm font-bold text-emerald-700 dark:text-emerald-500 uppercase tracking-widest">2. Pago Seguro</h3>
+                                    <button type="button" id="btn-back-to-shipping" class="text-[10px] text-zinc-500 underline uppercase tracking-widest font-black">Editar envío</button>
+                                </div>
+                                <div id="payment-element" class="p-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl">
+                                    <p class="text-xs text-zinc-400">Cargando pasarela segura...</p>
+                                </div>
+                                <div id="card-errors" role="alert" class="text-[10px] text-red-500 font-bold uppercase"></div>
+                                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-xl font-bold transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2" id="submit-pay">
+                                    <span class="btn-text">Pagar Ahora</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Success View -->
+            <div id="cart-success-content" class="hidden w-full max-w-7xl mx-auto py-8">
+                <!-- Hero Confirmation Section -->
+                <section class="relative grid md:grid-cols-2 gap-12 items-center mb-16">
+                <div class="order-2 md:order-1">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 font-label text-sm mb-6">
+                <span class="material-symbols-outlined text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                    Paso 3 de 3 completado
+                                </div>
+                <h1 class="font-headline text-5xl md:text-7xl font-extrabold text-zinc-900 dark:text-white tracking-tighter leading-tight mb-6">
+                                    ¡Pedido <span class="text-emerald-600">Confirmado!</span>
+                </h1>
+                <p class="text-xl text-zinc-600 dark:text-zinc-400 max-w-md leading-relaxed mb-8">
+                                    Tu cosecha está en camino. Hemos recibido tu pedido y nuestros agricultores ya están seleccionando lo mejor para ti.
+                                </p>
+                <div class="flex flex-wrap gap-4">
+                <button id="btn-success-close" class="px-8 py-4 bg-emerald-600 text-white rounded-full font-headline font-bold text-lg hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-600/20 active:scale-95">
+                                        Volver a la Tienda
+                                    </button>
+                <button class="px-8 py-4 bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white rounded-full font-headline font-semibold hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
+                                        Descargar Factura
+                                    </button>
+                </div>
+                </div>
+                <div class="order-1 md:order-2 relative">
+                <div class="absolute inset-0 bg-emerald-500/10 rounded-full blur-3xl -z-10"></div>
+                <!-- Bleed Effect Image -->
+                <div class="relative w-full aspect-square md:aspect-auto md:h-[500px] flex items-center justify-center">
+                <img alt="Fresh Harvest" class="w-full h-full object-contain drop-shadow-2xl transform rotate-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1wWTbjT5meGSEx0wyKcV8GY4cW8f2cwdgpXMZEIl-LyjQZMnbd0Lr0h9G3DA_tbe10XXriWJ8_yQAv27mKDYpZa9cFahrZL0Xu_YOMKs88YwAuhBf6AWDAFwCC6vWh_1GuxBmM8YciaX02K7PBF_sj3_g9pzU7fXbMJ7ZslQim0rrIc7mnCFCxQfpoKTilJD3tMloH-4C92Q0UFR6-mjTVsqkTFa6bLBNQfDVo-OGvHEou6ns3OPgWkHPgHmnZkWqOpfyh3BigNM"/>
+                </div>
+                </div>
+                </section>
+                <!-- Order Info Bento Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <!-- Delivery Info -->
+                <div class="md:col-span-2 bg-zinc-50 dark:bg-zinc-900 rounded-[2rem] p-8 shadow-sm border border-zinc-100 dark:border-zinc-800">
+                <h2 class="font-headline text-2xl font-bold text-zinc-900 dark:text-white mb-8 flex items-center gap-3">
+                <span class="material-symbols-outlined text-emerald-600" data-icon="local_shipping">local_shipping</span>
+                                    Detalles de Entrega
+                                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div>
+                <label class="block text-xs font-bold uppercase tracking-widest text-zinc-400 mb-2">Dirección de Envío</label>
+                <p id="success-address" class="text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                                            Calle de las Huertas, 12<br/>
+                                            Piso 4, Puerta B<br/>
+                                            28014, Madrid, España
+                                        </p>
+                </div>
+                <div>
+                <label class="block text-xs font-bold uppercase tracking-widest text-zinc-400 mb-2">Fecha Estimada</label>
+                <p class="text-xl font-bold text-emerald-600 mb-1">Jueves, 24 de Octubre</p>
+                <p class="text-sm text-zinc-500 italic">Entre las 09:00 y las 14:00</p>
+                </div>
+                </div>
+                <div class="mt-8 pt-8 border-t border-zinc-200 dark:border-zinc-800">
+                <div class="flex items-center gap-4 text-sm text-zinc-500">
+                <span class="material-symbols-outlined text-yellow-500" data-icon="info">info</span>
+                <p>Recibirás un SMS cuando el transportista esté a menos de 15 minutos de tu ubicación.</p>
+                </div>
+                </div>
+                </div>
+                <!-- Summary Sidebar -->
+                <div class="bg-zinc-100/50 dark:bg-zinc-800/50 rounded-[2rem] p-8 flex flex-col justify-between">
+                <div>
+                <h2 class="font-headline text-2xl font-bold text-zinc-900 dark:text-white mb-6">Resumen</h2>
+                <div class="space-y-4 mb-8">
+                <div class="flex justify-between items-center text-zinc-600 dark:text-zinc-400">
+                <span>Número de pedido</span>
+                <span id="success-order-id" class="font-mono font-bold text-zinc-900 dark:text-white">#NX-99201-B</span>
+                </div>
+                <div class="flex justify-between items-center text-zinc-600 dark:text-zinc-400">
+                <span>Método de pago</span>
+                <div class="flex items-center gap-2 text-zinc-900 dark:text-white">
+                <span class="material-symbols-outlined text-zinc-400 text-sm" data-icon="credit_card">credit_card</span>
+                <span id="success-method" class="font-medium">Visa</span>
+                </div>
+                </div>
+                </div>
+                </div>
+                <div class="bg-white dark:bg-zinc-950 p-6 rounded-2xl shadow-inner border border-zinc-100 dark:border-zinc-800">
+                <div class="flex justify-between items-end">
+                <div>
+                <p class="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-1">Total Pagado</p>
+                <p id="success-total" class="text-3xl font-extrabold font-headline text-zinc-900 dark:text-white">0,00€</p>
+                </div>
+                <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">PAGADO</span>
+                </div>
+                </div>
+                </div>
                 </div>
             </div>
         </div>
@@ -1278,9 +1413,10 @@
 
     <!-- Nexus Chat Widget -->
     <div id="nexus-chat" class="nexus-chat-widget">
-        <button id="chat-trigger" class="chat-trigger-btn">
+        <button id="chat-trigger" class="chat-trigger-btn relative">
             <span class="chat-trigger-icon">💬</span>
-            <span class="chat-trigger-text">¿Necesitas ayuda?</span>
+            <span class="chat-trigger-text">OrchardIA</span>
+            <span id="chat-status-light" class="status-light"></span>
         </button>
         <div id="chat-box" class="chat-box">
             <div class="chat-header">
@@ -1383,8 +1519,8 @@
                                         <span class="text-[10px] text-outline font-bold uppercase tracking-widest mb-1">Precio / KG</span>
                                         <span class="text-2xl font-headline font-extrabold text-primary">1,50€</span>
                                     </div>
-                                    <div class="card-actions" data-id="101" data-name="Manzana Roja" data-price="1.50">
-                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="101" data-name="Manzana Roja" data-price="1.50">
+                                    <div class="card-actions" data-id="101" data-name="Manzana Roja" data-price="1.50" data-image="https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=500&q=80">
+                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="101" data-name="Manzana Roja" data-price="1.50" data-image="https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=500&q=80">
                                             <span class="material-symbols-outlined pointer-events-none">add_shopping_cart</span>
                                         </button>
                                     </div>
@@ -1412,8 +1548,8 @@
                                         <span class="text-[10px] text-outline font-bold uppercase tracking-widest mb-1">Precio / KG</span>
                                         <span class="text-2xl font-headline font-extrabold text-primary">1,20€</span>
                                     </div>
-                                    <div class="card-actions" data-id="102" data-name="Plátano" data-price="1.20">
-                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="102" data-name="Plátano" data-price="1.20">
+                                    <div class="card-actions" data-id="102" data-name="Plátano" data-price="1.20" data-image="./imagenes/platano-de-canarias.jpg">
+                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="102" data-name="Plátano" data-price="1.20" data-image="./imagenes/platano-de-canarias.jpg">
                                             <span class="material-symbols-outlined pointer-events-none">add_shopping_cart</span>
                                         </button>
                                     </div>
@@ -1441,8 +1577,8 @@
                                         <span class="text-[10px] text-outline font-bold uppercase tracking-widest mb-1">Precio / KG</span>
                                         <span class="text-2xl font-headline font-extrabold text-primary">1,00€</span>
                                     </div>
-                                    <div class="card-actions" data-id="103" data-name="Naranja" data-price="1.00">
-                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="103" data-name="Naranja" data-price="1.00">
+                                    <div class="card-actions" data-id="103" data-name="Naranja" data-price="1.00" data-image="https://images.unsplash.com/photo-1547514701-42782101795e?w=500&q=80">
+                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="103" data-name="Naranja" data-price="1.00" data-image="https://images.unsplash.com/photo-1547514701-42782101795e?w=500&q=80">
                                             <span class="material-symbols-outlined pointer-events-none">add_shopping_cart</span>
                                         </button>
                                     </div>
@@ -1470,8 +1606,8 @@
                                         <span class="text-[10px] text-outline font-bold uppercase tracking-widest mb-1">Precio / UD</span>
                                         <span class="text-2xl font-headline font-extrabold text-primary">4,50€</span>
                                     </div>
-                                    <div class="card-actions" data-id="104" data-name="Fresón" data-price="4.50">
-                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="104" data-name="Fresón" data-price="4.50">
+                                    <div class="card-actions" data-id="104" data-name="Fresón" data-price="4.50" data-image="https://images.unsplash.com/photo-1518635017498-87f514b751ba?w=500&q=80">
+                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="104" data-name="Fresón" data-price="4.50" data-image="https://images.unsplash.com/photo-1518635017498-87f514b751ba?w=500&q=80">
                                             <span class="material-symbols-outlined pointer-events-none">add_shopping_cart</span>
                                         </button>
                                     </div>
@@ -1499,8 +1635,8 @@
                                         <span class="text-[10px] text-outline font-bold uppercase tracking-widest mb-1">Precio / KG</span>
                                         <span class="text-2xl font-headline font-extrabold text-primary">3,00€</span>
                                     </div>
-                                    <div class="card-actions" data-id="105" data-name="Uvas" data-price="3.00">
-                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="105" data-name="Uvas" data-price="3.00">
+                                    <div class="card-actions" data-id="105" data-name="Uvas" data-price="3.00" data-image="https://images.unsplash.com/photo-1601275868399-45bec4f4cd9d?w=500&q=80">
+                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="105" data-name="Uvas" data-price="3.00" data-image="https://images.unsplash.com/photo-1601275868399-45bec4f4cd9d?w=500&q=80">
                                             <span class="material-symbols-outlined pointer-events-none">add_shopping_cart</span>
                                         </button>
                                     </div>
@@ -1528,8 +1664,8 @@
                                         <span class="text-[10px] text-outline font-bold uppercase tracking-widest mb-1">Precio / KG</span>
                                         <span class="text-2xl font-headline font-extrabold text-primary">2,80€</span>
                                     </div>
-                                    <div class="card-actions" data-id="106" data-name="Kiwi" data-price="2.80">
-                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="106" data-name="Kiwi" data-price="2.80">
+                                    <div class="card-actions" data-id="106" data-name="Kiwi" data-price="2.80" data-image="https://images.unsplash.com/photo-1618897996318-5a901fa6ca71?w=500&q=80">
+                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="106" data-name="Kiwi" data-price="2.80" data-image="https://images.unsplash.com/photo-1618897996318-5a901fa6ca71?w=500&q=80">
                                             <span class="material-symbols-outlined pointer-events-none">add_shopping_cart</span>
                                         </button>
                                     </div>
@@ -1557,8 +1693,8 @@
                                         <span class="text-[10px] text-outline font-bold uppercase tracking-widest mb-1">Precio / UD</span>
                                         <span class="text-2xl font-headline font-extrabold text-primary">2,50€</span>
                                     </div>
-                                    <div class="card-actions" data-id="107" data-name="Piña" data-price="2.50">
-                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="107" data-name="Piña" data-price="2.50">
+                                    <div class="card-actions" data-id="107" data-name="Piña" data-price="2.50" data-image="https://images.unsplash.com/photo-1587883012610-e3df17d41270?w=500&q=80">
+                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="107" data-name="Piña" data-price="2.50" data-image="https://images.unsplash.com/photo-1587883012610-e3df17d41270?w=500&q=80">
                                             <span class="material-symbols-outlined pointer-events-none">add_shopping_cart</span>
                                         </button>
                                     </div>
@@ -1586,8 +1722,8 @@
                                         <span class="text-[10px] text-outline font-bold uppercase tracking-widest mb-1">Precio / UD</span>
                                         <span class="text-2xl font-headline font-extrabold text-primary">3,20€</span>
                                     </div>
-                                    <div class="card-actions" data-id="108" data-name="Mango" data-price="3.20">
-                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="108" data-name="Mango" data-price="3.20">
+                                    <div class="card-actions" data-id="108" data-name="Mango" data-price="3.20" data-image="./imagenes/mango.jpg">
+                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="108" data-name="Mango" data-price="3.20" data-image="./imagenes/mango.jpg">
                                             <span class="material-symbols-outlined pointer-events-none">add_shopping_cart</span>
                                         </button>
                                     </div>
@@ -1615,8 +1751,8 @@
                                         <span class="text-[10px] text-outline font-bold uppercase tracking-widest mb-1">Precio / KG</span>
                                         <span class="text-2xl font-headline font-extrabold text-primary">0,80€</span>
                                     </div>
-                                    <div class="card-actions" data-id="109" data-name="Sandía" data-price="0.80">
-                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="109" data-name="Sandía" data-price="0.80">
+                                    <div class="card-actions" data-id="109" data-name="Sandía" data-price="0.80" data-image="./imagenes/sandia.jpg">
+                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="109" data-name="Sandía" data-price="0.80" data-image="./imagenes/sandia.jpg">
                                             <span class="material-symbols-outlined pointer-events-none">add_shopping_cart</span>
                                         </button>
                                     </div>
@@ -1644,8 +1780,8 @@
                                         <span class="text-[10px] text-outline font-bold uppercase tracking-widest mb-1">Precio / KG</span>
                                         <span class="text-2xl font-headline font-extrabold text-primary">1,90€</span>
                                     </div>
-                                    <div class="card-actions" data-id="110" data-name="Pera" data-price="1.90">
-                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="110" data-name="Pera" data-price="1.90">
+                                    <div class="card-actions" data-id="110" data-name="Pera" data-price="1.90" data-image="https://images.unsplash.com/photo-1615484477778-ca3b77940c25?w=500&q=80">
+                                        <button class="bg-primary hover:bg-on-primary-fixed-variant text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md group-hover:scale-110 active:scale-95 add-to-cart" data-id="110" data-name="Pera" data-price="1.90" data-image="https://images.unsplash.com/photo-1615484477778-ca3b77940c25?w=500&q=80">
                                             <span class="material-symbols-outlined pointer-events-none">add_shopping_cart</span>
                                         </button>
                                     </div>
