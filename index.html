@@ -385,6 +385,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 6-12 12"></path><path d="m6 6 12 12"></path></svg>
                         </button>
                     </div>
+                    <!-- Contenedor para resultados de búsqueda en el carrito -->
+                    <div id="cart-search-results" class="hidden mb-6 flex flex-col gap-3"></div>
                     <div id="cart-items" class="max-h-96 overflow-y-auto pr-4 space-y-4">
                         <!-- Items injected here -->
                         <p class="empty-msg text-zinc-400 font-medium">Tu selección está vacía. Explora el catálogo para añadir frescura.</p>
@@ -393,7 +395,8 @@
 
                 <!-- Summary & Checkout -->
                 <div class="lg:w-96 space-y-6 shrink-0">
-                    <div class="p-8 bg-zinc-50 dark:bg-zinc-900 rounded-[2rem] space-y-6 border border-zinc-100 dark:border-zinc-800 shadow-sm">
+                    <!-- Summary panel (hidden when checkout form is open) -->
+                    <div id="cart-summary-panel" class="p-8 bg-zinc-50 dark:bg-zinc-900 rounded-[2rem] space-y-6 border border-zinc-100 dark:border-zinc-800 shadow-sm">
                         <div class="space-y-3">
                             <div class="flex justify-between items-center text-sm text-zinc-500">
                                 <span>Subtotal</span>
@@ -413,50 +416,190 @@
                             Confirmar Pedido
                         </button>
                     </div>
+
+                    <!-- Inline Checkout Panel (replaces summary when "Confirmar Pedido" is clicked) -->
+                    <div id="checkout-section-nav" class="hidden p-8 bg-zinc-50 dark:bg-zinc-900 rounded-[2rem] border border-zinc-100 dark:border-zinc-800 shadow-sm space-y-4">
+                        <!-- Step 1: Shipping -->
+                        <div id="checkout-step-shipping" class="space-y-3">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-headline text-sm font-black text-on-surface uppercase tracking-widest">
+                                    <span class="text-primary">1.</span> Envío
+                                </h3>
+                                <button id="nav-cancel-checkout" class="text-xs text-zinc-400 hover:text-zinc-700 underline">← Volver</button>
+                            </div>
+                            <input type="text" id="nav-cust-name" placeholder="Nombre completo *"
+                                class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                            <input type="text" id="nav-cust-street" placeholder="Calle / Dirección *"
+                                class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="text" id="nav-cust-number" placeholder="Número *"
+                                    class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                                <input type="text" id="nav-cust-floor" placeholder="Piso"
+                                    class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="text" id="nav-cust-zip" placeholder="C.P. *"
+                                    class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                                <input type="text" id="nav-cust-city" placeholder="Ciudad *"
+                                    class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                            </div>
+                            <button id="nav-btn-to-payment"
+                                class="w-full bg-primary hover:bg-on-primary-fixed-variant text-white py-3 rounded-2xl font-headline font-bold text-sm transition-all shadow-lg shadow-primary/20 active:scale-95">
+                                Continuar al Pago →
+                            </button>
+                        </div>
+
+                        <!-- Step 2: Payment -->
+                        <div id="checkout-step-payment" class="hidden space-y-3">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-headline text-sm font-black text-on-surface uppercase tracking-widest">
+                                    <span class="text-primary">2.</span> Pagar
+                                </h3>
+                                <button id="nav-btn-back-to-shipping" class="text-xs text-zinc-400 underline hover:text-primary">← Editar envío</button>
+                            </div>
+                            <div class="rounded-xl bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 p-3 space-y-1 text-xs text-zinc-600 dark:text-zinc-400">
+                                <div id="nav-summary-items"></div>
+                                <div class="pt-1 border-t border-zinc-200 dark:border-zinc-700 flex justify-between font-bold text-on-surface text-sm">
+                                    <span>Total</span>
+                                    <span id="nav-summary-total">0,00€</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Fecha de entrega -->
+                            <div class="space-y-1.5 mt-2">
+                                <label for="nav-delivery-date-inline" class="text-xs font-bold text-zinc-600 dark:text-zinc-400">¿Cuándo quieres recibir tu frescura?</label>
+                                <select id="nav-delivery-date-inline" class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 text-zinc-700 dark:text-zinc-200 appearance-none">
+                                    <option value="" disabled selected hidden>Selecciona una fecha de entrega *</option>
+                                    <option value="Lo antes posible (24/48h)">Lo antes posible (24/48h)</option>
+                                    <option value="Jueves por la mañana">Jueves por la mañana</option>
+                                    <option value="Jueves por la tarde">Jueves por la tarde</option>
+                                    <option value="Viernes por la mañana">Viernes por la mañana</option>
+                                    <option value="Viernes por la tarde">Viernes por la tarde</option>
+                                    <option value="Sábado por la mañana">Sábado por la mañana</option>
+                                </select>
+                            </div>
+
+                            <button id="nav-pay-btn"
+                                class="w-full bg-primary hover:bg-on-primary-fixed-variant text-white py-3 rounded-2xl font-headline font-bold text-sm transition-all shadow-lg shadow-primary/20 active:scale-95 flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-base">lock</span>
+                                Introducir Datos de Pago →
+                            </button>
+                        </div>
+
+                        <!-- Step 3: Card Details -->
+                        <div id="checkout-step-card" class="hidden space-y-3">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-headline text-sm font-black text-on-surface uppercase tracking-widest">
+                                    <span class="text-primary">3.</span> Tarjeta
+                                </h3>
+                                <button id="nav-btn-back-to-payment" class="text-xs text-zinc-400 underline hover:text-primary">← Volver</button>
+                            </div>
+                            <!-- Card visual -->
+                            <div class="bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-2xl p-4 text-white shadow-lg mb-3">
+                                <div class="flex justify-between items-start mb-4">
+                                    <span class="text-xs font-bold opacity-70 uppercase tracking-widest">Tarjeta de Crédito</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="20" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="white" fill-opacity="0.15"/><rect x="1" y="1" width="20" height="30" rx="15" fill="white" fill-opacity="0.6"/><rect x="13" y="1" width="20" height="30" rx="15" fill="white" fill-opacity="0.4"/></svg>
+                                </div>
+                                <p id="card-display-number" class="font-mono text-lg tracking-widest mb-4 opacity-90">•••• •••• •••• ••••</p>
+                                <div class="flex justify-between text-xs opacity-70">
+                                    <span>TITULAR</span>
+                                    <span>CADUCIDAD</span>
+                                </div>
+                                <div class="flex justify-between text-sm font-bold mt-1">
+                                    <span id="card-display-name">Tu Nombre</span>
+                                    <span id="card-display-expiry">MM/AA</span>
+                                </div>
+                            </div>
+                            <input type="text" id="nav-card-number" placeholder="Número de tarjeta" maxlength="19"
+                                class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/30"
+                                oninput="this.value=this.value.replace(/\D/g,'').replace(/(.{4})/g,'$1 ').trim(); document.getElementById('card-display-number').textContent=this.value||'•••• •••• •••• ••••'">
+                            <input type="text" id="nav-card-name" placeholder="Nombre en la tarjeta"
+                                class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                                oninput="document.getElementById('card-display-name').textContent=this.value||'Tu Nombre'">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="text" id="nav-card-expiry" placeholder="MM/AA" maxlength="5"
+                                    class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/30"
+                                    oninput="let v=this.value.replace(/\D/g,''); if(v.length>=2)v=v.slice(0,2)+'/'+v.slice(2); this.value=v; document.getElementById('card-display-expiry').textContent=this.value||'MM/AA'">
+                                <input type="text" id="nav-card-cvv" placeholder="CVV" maxlength="3"
+                                    class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/30"
+                                    oninput="this.value=this.value.replace(/\D/g,'')">
+                            </div>
+                            <button id="nav-confirm-pay-btn"
+                                class="w-full bg-primary hover:bg-on-primary-fixed-variant text-white py-3 rounded-2xl font-headline font-bold text-sm transition-all shadow-lg shadow-primary/20 active:scale-95 flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-base">lock</span>
+                                Confirmar Pago
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="flex items-center gap-4 px-4 text-emerald-700 dark:text-emerald-500 font-bold text-[10px] uppercase tracking-widest">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                         Pago 100% Seguro y Encriptado
                     </div>
+                </div>
+            </div>
 
-                    <!-- Relocated Payment/Shipping Form -->
-                    <div id="checkout-section-nav" class="hidden space-y-6 pt-6 border-t border-zinc-100 dark:border-zinc-800">
-                        <form id="payment-form" class="checkout-form space-y-6">
-                            <!-- Step 1: Shipping -->
-                            <div id="step-shipping" class="form-step active space-y-4">
-                                <h3 class="text-sm font-bold text-emerald-700 dark:text-emerald-500 uppercase tracking-widest">1. Información de Envío</h3>
-                                <div class="space-y-3">
-                                    <input type="text" id="cust-name" placeholder="Nombre completo" class="w-full p-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-sm" required>
-                                    <input type="text" id="cust-street" placeholder="Dirección / Calle" class="w-full p-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-sm" required>
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <input type="text" id="cust-number" placeholder="Número" class="w-full p-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-sm" required>
-                                        <input type="text" id="cust-floor" placeholder="Piso / Puerta" class="w-full p-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-sm">
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <input type="text" id="cust-zip" placeholder="CP" class="w-full p-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-sm" required>
-                                        <input type="text" id="cust-city" placeholder="Ciudad" class="w-full p-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-sm" required>
-                                    </div>
-                                </div>
-                                <button type="button" id="btn-to-payment" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-xl font-bold transition-all shadow-lg active:scale-95">
-                                    Continuar al Pago
-                                </button>
-                            </div>
-
-                            <!-- Step 2: Payment -->
-                            <div id="step-payment" class="form-step hidden space-y-4">
-                                <div class="flex items-center justify-between">
-                                    <h3 class="text-sm font-bold text-emerald-700 dark:text-emerald-500 uppercase tracking-widest">2. Pago Seguro</h3>
-                                    <button type="button" id="btn-back-to-shipping" class="text-[10px] text-zinc-500 underline uppercase tracking-widest font-black">Editar envío</button>
-                                </div>
-                                <div id="payment-element" class="p-4 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl">
-                                    <p class="text-xs text-zinc-400">Cargando pasarela segura...</p>
-                                </div>
-                                <div id="card-errors" role="alert" class="text-[10px] text-red-500 font-bold uppercase"></div>
-                                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-xl font-bold transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2" id="submit-pay">
-                                    <span class="btn-text">Pagar Ahora</span>
-                                </button>
-                            </div>
-                        </form>
+            <!-- (checkout panel moved inside summary column above) -->
+            <div style="display:none">
+                <!-- Step 1: Shipping Info -->
+                <div id="checkout-step-shipping" class="space-y-4">
+                    <h3 class="font-headline text-lg font-black text-on-surface uppercase tracking-widest mb-4">
+                        <span class="text-primary">1.</span> Información de Envío
+                    </h3>
+                    <div class="grid grid-cols-1 gap-3">
+                        <input type="text" id="nav-cust-name" placeholder="Nombre completo *"
+                            class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                        <input type="text" id="nav-cust-street" placeholder="Calle / Dirección *"
+                            class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="text" id="nav-cust-number" placeholder="Número *"
+                                class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                            <input type="text" id="nav-cust-floor" placeholder="Piso / Puerta"
+                                class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="text" id="nav-cust-zip" placeholder="Código Postal *"
+                                class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                            <input type="text" id="nav-cust-city" placeholder="Ciudad *"
+                                class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                        </div>
+                        <select id="nav-cust-date" class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm text-zinc-600 focus:outline-none focus:ring-2 focus:ring-primary/30 mt-2">
+                            <option value="">Selecciona fecha de entrega *</option>
+                            <option value="Mañana, de 09:00 a 14:00">Mañana, de 09:00 a 14:00</option>
+                            <option value="Mañana, de 16:00 a 20:00">Mañana, de 16:00 a 20:00</option>
+                            <option value="Pasado mañana, de 09:00 a 14:00">Pasado mañana, de 09:00 a 14:00</option>
+                            <option value="Pasado mañana, de 16:00 a 20:00">Pasado mañana, de 16:00 a 20:00</option>
+                        </select>
                     </div>
+                    <button id="nav-btn-to-payment"
+                        class="w-full bg-primary hover:bg-on-primary-fixed-variant text-white py-4 rounded-2xl font-headline font-bold text-sm transition-all shadow-lg shadow-primary/20 active:scale-95 mt-2">
+                        Continuar al Pago →
+                    </button>
+                </div>
+
+                <!-- Step 2: Payment (hidden initially) -->
+                <div id="checkout-step-payment" class="hidden space-y-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-headline text-lg font-black text-on-surface uppercase tracking-widest">
+                            <span class="text-primary">2.</span> Pagar
+                        </h3>
+                        <button id="nav-btn-back-to-shipping"
+                            class="text-xs text-zinc-500 underline hover:text-primary transition-colors">
+                            ← Editar envío
+                        </button>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 space-y-2 text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+                        <div id="nav-summary-items" class="space-y-1"></div>
+                        <div class="pt-2 border-t border-zinc-200 dark:border-zinc-700 flex justify-between font-bold text-on-surface">
+                            <span>Total</span>
+                            <span id="nav-summary-total">0,00€</span>
+                        </div>
+                    </div>
+                    <button id="nav-pay-btn"
+                        class="w-full bg-primary hover:bg-on-primary-fixed-variant text-white py-4 rounded-2xl font-headline font-bold text-sm transition-all shadow-lg shadow-primary/20 active:scale-95 flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-base">lock</span>
+                        Pagar Ahora
+                    </button>
                 </div>
             </div>
 
@@ -511,8 +654,8 @@
                 </div>
                 <div>
                 <label class="block text-xs font-bold uppercase tracking-widest text-zinc-400 mb-2">Fecha Estimada</label>
-                <p class="text-xl font-bold text-emerald-600 mb-1">Jueves, 24 de Octubre</p>
-                <p class="text-sm text-zinc-500 italic">Entre las 09:00 y las 14:00</p>
+                <p id="success-date" class="text-xl font-bold text-emerald-600 mb-1">Jueves, 24 de Octubre</p>
+                <p id="success-time" class="text-sm text-zinc-500 italic">Entre las 09:00 y las 14:00</p>
                 </div>
                 </div>
                 <div class="mt-8 pt-8 border-t border-zinc-200 dark:border-zinc-800">
@@ -1129,139 +1272,7 @@
             </div>
         </section>
 
-        <!-- Checkout Section -->
-        <section id="checkout" class="checkout-section" style="padding: 5rem 0; background: white;">
-            <div class="container">
-                <div class="checkout-container" style="max-width: 900px; margin: 0 auto;">
-                    <div class="section-header" style="text-align: center; margin-bottom: 3rem;">
-                        <h2>Finalizar <span class="text-gradient">Pedido</span></h2>
-                        <p>Completa tus datos para recibir tu fruta fresca</p>
-                    </div>
 
-                    <div class="checkout-grid">
-                        <form id="payment-form" class="checkout-form">
-                            <!-- Step 1: Shipping -->
-                            <div id="step-shipping" class="form-step active">
-                                <div class="form-section" style="margin-bottom: 2rem;">
-                                    <h3 style="margin-bottom: 1.5rem; color: var(--primary);">1. Información de Envío
-                                    </h3>
-                                    <div class="form-group">
-                                        <input type="text" id="cust-name" placeholder="Nombre completo" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" id="cust-street" placeholder="Dirección / Calle" required>
-                                    </div>
-                                    <div class="grid-2-form">
-                                        <div class="form-group">
-                                            <input type="text" id="cust-number" placeholder="Número" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" id="cust-floor" placeholder="Piso / Puerta">
-                                        </div>
-                                    </div>
-                                    <div class="grid-2-form">
-                                        <div class="form-group">
-                                            <input type="text" id="cust-zip" placeholder="Código Postal" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" id="cust-city" placeholder="Ciudad" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button type="button" id="btn-to-payment" class="btn btn-primary"
-                                    style="width: 100%; padding: 1.25rem; font-size: 1.1rem; border-radius: 50px;">
-                                    Continuar al Pago
-                                </button>
-                            </div>
-
-                            <!-- Step 2: Payment (Hidden initially) -->
-                            <div id="step-payment" class="form-step" style="display: none;">
-                                <div class="form-section" style="margin-bottom: 2rem;">
-                                    <div
-                                        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
-                                        <h3 style="color: var(--primary); margin: 0;">2. Detalles de Pago (Stripe)</h3>
-                                        <button type="button" id="btn-back-to-shipping"
-                                            style="background: none; border: none; color: var(--text-muted); cursor: pointer; text-decoration: underline; font-size: 0.9rem;">Editar
-                                            envío</button>
-                                    </div>
-                                    <div id="payment-element" class="stripe-container"
-                                        style="padding: 1rem; border: 1px solid #eee; border-radius: 12px; background: #fdfdfd;">
-                                        <!-- Stripe Elements will be injected here -->
-                                        <p style="color: var(--text-muted); font-size: 0.9rem;">Cargando pasarela
-                                            segura...
-                                        </p>
-                                    </div>
-                                    <div id="card-errors" role="alert"
-                                        style="color: #ef4444; font-size: 0.8rem; margin-top: 0.5rem;"></div>
-                                </div>
-
-                                <button type="submit" class="btn btn-primary submit-pay" id="submit-pay"
-                                    style="width: 100%; padding: 1.25rem; font-size: 1.1rem; border-radius: 50px;">
-                                    <span class="btn-text">Confirmar y Pagar</span>
-                                    <div class="loader" id="pay-loader"
-                                        style="display: none; border: 3px solid rgba(255,255,255,.3); border-top: 3px solid #fff; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite;">
-                                    </div>
-                                </button>
-                            </div>
-
-                            <div class="payment-summary"
-                                style="background: #f8fafc; padding: 1.5rem; border-radius: 1rem; margin-bottom: 1.5rem;">
-                                <h4
-                                    style="margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em;">
-                                    Resumen del Pedido</h4>
-                                <div id="checkout-items"
-                                    style="margin-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 1rem;">
-                                    <!-- Items will be injected here -->
-                                </div>
-                                <div class="summary-line"
-                                    style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                    <span>Subtotal:</span>
-                                    <span id="summary-subtotal">0.00€</span>
-                                </div>
-                                <div class="summary-line"
-                                    style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                    <span>Envío:</span>
-                                    <span class="free" style="color: var(--primary); font-weight: 600;">GRATIS</span>
-                                </div>
-                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 1rem 0;">
-                                <div class="summary-line total"
-                                    style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.2rem;">
-                                    <span>Total:</span>
-                                    <span id="summary-total">0.00€</span>
-                                </div>
-                            </div>
-
-                        </form>
-
-                        <div class="checkout-info">
-                            <div class="info-card"
-                                style="background: #f0fdf4; padding: 1.5rem; border-radius: 1.5rem; margin-bottom: 1.5rem;">
-                                <h4 style="margin-bottom: 0.5rem;">🔒 Pago Seguro</h4>
-                                <p style="font-size: 0.9rem; color: #374151;">Tus datos están protegidos mediante
-                                    cifrado
-                                    SSL de 256 bits a través de Stripe.</p>
-                            </div>
-                            <div class="info-card" style="background: #eff6ff; padding: 1.5rem; border-radius: 1.5rem;">
-                                <h4 style="margin-bottom: 0.5rem;">📦 Envío en 24h</h4>
-                                <p style="font-size: 0.9rem; color: #374151;">Si pides antes de las 14:00, recibes tu
-                                    pedido
-                                    mañana mismo.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Success Modal (dentro de sección) -->
-            <div id="success-screen"
-                style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-                <div style="font-size: 5rem; margin-bottom: 1rem;">✅</div>
-                <h2>¡Pedido Realizado!</h2>
-                <p>Gracias por confiar en Frutería Nexus. Recibirás un correo con los detalles.</p>
-                <button class="btn btn-primary" id="finish-success"
-                    style="margin-top: 2rem; border-radius: 50px; padding: 1rem 3rem;">Seguir Comprando</button>
-            </div>
-        </section>
 
 
 
@@ -3239,7 +3250,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="app.js"></script>
+    <script src="app.js?v=2.6"></script>
 </body>
 
 </html>
