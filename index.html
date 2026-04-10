@@ -330,7 +330,7 @@
             </a>
             
             <!-- Navegación Principal -->
-            <nav class="hidden md:flex items-center space-x-10">
+            <nav class="nav-links hidden md:flex items-center space-x-10">
                 <a href="#catalogo-hero" class="text-xs font-bold text-zinc-900 dark:text-zinc-200 hover:text-emerald-600 transition-colors uppercase tracking-widest">Cajas</a>
                 <a href="#catalogo-hero" class="text-xs font-bold text-zinc-900 dark:text-zinc-200 hover:text-emerald-600 transition-colors uppercase tracking-widest">Catálogo</a>
                 <a href="#recetas" class="text-xs font-bold text-zinc-900 dark:text-zinc-200 hover:text-emerald-600 transition-colors uppercase tracking-widest">Recetas</a>
@@ -338,14 +338,18 @@
             </nav>
 
             <!-- Acciones de Usuario -->
-            <div class="flex items-center space-x-6 text-zinc-900 dark:text-zinc-200">
-                <button class="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-colors active:scale-95">
+            <div class="flex items-center space-x-4 md:space-x-6 text-zinc-900 dark:text-zinc-200">
+                <button class="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-colors active:scale-95 hidden sm:block">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 </button>
                 <button id="cart-icon" class="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-colors relative active:scale-95">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
                     <span class="cart-count absolute -top-1 -right-1 bg-emerald-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">0</span>
                     <span id="cart-status-light" class="status-light"></span>
+                </button>
+                <!-- Botón Menú Mobile -->
+                <button id="mobile-menu-btn" class="mobile-menu-btn p-2 md:hidden hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors active:scale-95">
+                    <span class="material-symbols-outlined">menu</span>
                 </button>
             </div>
         </div>
